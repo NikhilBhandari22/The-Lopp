@@ -1,0 +1,77 @@
+name: the_loop
+description: "The Loop - Your Ultimate Music Experience. Stream music from YouTube with background playback support."
+publish_to: 'none'
+version: 1.0.0+1
+
+# Production Release Notes:
+# - API keys are loaded via --dart-define at build time
+# - See BUILD.md for production build instructions
+
+environment:
+  sdk: ^3.9.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+
+  # Networking
+  http: ^1.2.0
+
+  # YouTube Player
+  youtube_player_flutter: ^9.1.1
+
+  # YouTube Audio Extraction
+  youtube_explode_dart: ^2.2.1
+
+  # Background Audio
+  audio_service: ^0.18.15
+  just_audio: ^0.9.40
+
+  # State Management
+  provider: ^6.1.2
+
+  # Local Storage
+  shared_preferences: ^2.2.2
+
+  # Fonts
+  google_fonts: ^6.2.1
+
+  # UUID for playlist IDs
+  uuid: ^4.5.1
+
+  # Responsive UI
+  flutter_screenutil: ^5.9.3
+
+  # Lottie Animations
+  dotlottie_loader: ^0.0.4
+  lottie: ^3.1.0
+
+  # Firebase
+  firebase_core: ^3.8.1
+  firebase_remote_config: ^5.2.1
+
+  # Share functionality
+  share_plus: ^10.1.4
+  palette_generator: ^0.3.3+7
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  flutter_launcher_icons: ^0.14.3
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/applogo.jpeg"
+  adaptive_icon_background: "#000000"
+  adaptive_icon_foreground: "assets/images/applogo.jpeg"
+  remove_alpha_ios: true
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/

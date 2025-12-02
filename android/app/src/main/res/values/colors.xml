@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ic_launcher_background">#000000</color>
+    <!-- The Loop App Theme Colors -->
+    <color name="colorPrimary">#8B5CF6</color>
+    <color name="colorPrimaryDark">#7C3AED</color>
+    <color name="colorAccent">#22D3EE</color>
+    <color name="colorBackground">#0D1117</color>
+    <color name="colorSurface">#161B22</color>
+    <!-- Notification colors -->
+    <color name="notification_color">#8B5CF6</color>
+</resources>
