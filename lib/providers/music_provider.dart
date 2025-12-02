@@ -324,6 +324,9 @@ class MusicProvider extends ChangeNotifier {
       if (kDebugMode) debugPrint('Playback started');
       _playerState = MusicPlayerState.playing;
       notifyListeners();
+
+      // Pre-fetch next song's audio URL in background for faster playback
+      _prefetchNextSong();
     } catch (e, stackTrace) {
       if (kDebugMode) {
         debugPrint('Error playing song: $e');
@@ -624,6 +627,54 @@ class MusicProvider extends ChangeNotifier {
     _queue = _currentSong != null ? [_currentSong!] : [];
     _currentIndex = 0;
     notifyListeners();
+  }
+
+  // Pre-fetch next song's audio URL in background
+  void _prefetchNextSong() {
+    if (_queue.isEmpty) return;
+
+    // Calculate next index based on repeat mode
+    int nextIndex;
+    if (_repeatMode == RepeatMode.one) {
+      // For repeat one, next song is the same song (already cached)
+      return;
+    } else {
+      nextIndex = (_currentIndex + 1) % _queue.length;
+    }
+
+    // Don't prefetch if we're at the end and not repeating
+    if (_repeatMode == RepeatMode.off && _currentIndex >= _queue.length - 1) {
+      return;
+    }
+
+    final nextSong = _queue[nextIndex];
+    if (kDebugMode) debugPrint('⏩ Pre-fetching next song: ${nextSong.title}');
+
+    // Pre-fetch in background (don't await)
+    Future.microtask(() async {
+      await _audioService.prefetchAudioUrl(nextSong.videoId);
+    });
+  }
+
+  // Pre-fetch audio URLs for recently played songs on app start
+  void prefetchRecentlyPlayedUrls() {
+    if (_recentlyPlayed.isEmpty) return;
+
+    if (kDebugMode) debugPrint('⏩ Pre-fetching ${_recentlyPlayed.length} recently played songs...');
+
+    // Prefetch first 5 recently played songs in background
+    Future.microtask(() async {
+      final songsToFetch = _recentlyPlayed.take(5).toList();
+      for (final song in songsToFetch) {
+        await _audioService.prefetchAudioUrl(song.videoId);
+      }
+      if (kDebugMode) debugPrint('✅ Pre-fetched ${songsToFetch.length} recent songs');
+    });
+  }
+
+  // Check if audio URL is cached for a song
+  bool isAudioCached(String videoId) {
+    return _audioService.isCached(videoId);
   }
 
   // Cleanup
