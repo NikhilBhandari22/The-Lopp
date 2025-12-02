@@ -96,6 +96,9 @@ class _TheLoopAppState extends State<TheLoopApp> {
     // Load songs in background - don't wait
     widget.musicProvider.loadAllSongsBackground();
 
+    // Pre-fetch audio URLs for recently played songs (for faster replay)
+    widget.musicProvider.prefetchRecentlyPlayedUrls();
+
     if (mounted) {
       setState(() {
         _isInitialized = true;
